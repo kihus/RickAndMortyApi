@@ -1,10 +1,28 @@
+using MongoDB.Driver;
+using RickAndMortyApi.Repository;
+using RickAndMortyApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+builder.Services.AddHttpClient<CharacterService>(client =>
+    client.BaseAddress = new Uri("https://rickandmortyapi.com/api/"));
+
+var connectionString = builder.Configuration.GetConnectionString("MongoDb");
+var databaseName = builder.Configuration.GetValue<string>("RickAndMorty");
+
+builder.Services.AddSingleton<IMongoClient>(sp =>
+{
+    return new MongoClient(connectionString);
+});
+
+builder.Services.AddScoped<IMongoDatabase>(sp => {
+    var client = sp.GetRequiredService<IMongoClient>();
+    return client.GetDatabase("RickAndMorty");
+});
+
+builder.Services.AddScoped<CharacterRepository>();
 
 var app = builder.Build();
 
