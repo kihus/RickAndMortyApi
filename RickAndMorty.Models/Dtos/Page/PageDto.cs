@@ -2,5 +2,5 @@
 
 public class PageDto
 {
-    public string? Page { get; set; }
+    public int? Page { get; set; }
 }

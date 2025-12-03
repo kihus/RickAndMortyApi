@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using RickAndMorty.Models.Dtos.Character;
 
 namespace RickAndMorty.Models.Entities;
 
@@ -13,8 +14,8 @@ public class Character
     public string Species { get; set; }
     public string Type { get; set; }
     public string Gender { get; set; }
-    public Origin Origin { get; set; }
-    public Location Location { get; set; }
+    public OriginDto Origin { get; set; }
+    public LocationDto Location { get; set; }
     public string Image { get; set; }
     public List<string> Episodes { get; set; }
     public string Url { get; set; }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RickAndMorty.Models.Dtos.Character;
 using RickAndMorty.Models.Dtos.Page;
+using RickAndMorty.Models.Dtos.RickAndMorty;
 using RickAndMortyApi.Services;
 
 namespace RickAndMortyApi.Controllers
@@ -17,12 +18,12 @@ namespace RickAndMortyApi.Controllers
             _characterService = characterService;
         }
 
-        [HttpGet()]
-        public async Task<ActionResult<CharacterResponseDto>> GetAll([FromQuery] PageDto page)
+        [HttpGet]
+        public async Task<ActionResult<RickAndMortyResponseDto>> GetAll([FromQuery] PageDto pageDto)
         {
             try
             {
-                var characters = await _characterService.GetAll(page);
+                var characters = await _characterService.GetAll(pageDto);
 
                 if (characters is null)
                     return NotFound();
@@ -51,7 +52,7 @@ namespace RickAndMortyApi.Controllers
         }
 
         [HttpGet("filter/")]
-        public async Task<ActionResult<List<CharacterDto>>> GetFilter([FromQuery] CharacterFilter filter)
+        public async Task<ActionResult<List<CharacterDto>>> GetFilter([FromQuery] CharacterFilterDto filter)
         {
             try
             {

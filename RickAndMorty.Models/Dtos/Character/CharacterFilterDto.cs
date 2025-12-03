@@ -1,6 +1,6 @@
 ﻿namespace RickAndMorty.Models.Dtos.Character;
 
-public class CharacterFilter
+public class CharacterFilterDto
 {
     public string? Name { get; set; }
     public string? Status { get; set; }

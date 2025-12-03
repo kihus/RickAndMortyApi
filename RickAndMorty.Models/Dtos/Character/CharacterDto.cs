@@ -3,55 +3,42 @@ using System.Text.Json.Serialization;
 
 namespace RickAndMorty.Models.Dtos.Character;
 
-public class CharacterDto(
-    int id, 
-    string name, 
-    string status, 
-    string species, 
-    string type, 
-    string gender, 
-    Origin origin, 
-    Location location, 
-    string image, 
-    List<string> episodes, 
-    string url, 
-    string created
-    )
+public class CharacterDto
 {
     [JsonPropertyName("id")]
-    public int Id { get; private set; } = id;
+    public required int Id { get; init; }
 
     [JsonPropertyName("name")]
-    public string Name { get; private set; } = name;
+    public required string Name { get; init; } 
 
     [JsonPropertyName("status")]
-    public string Status { get; private set; } = status;
+    public required string Status { get; init; }
 
     [JsonPropertyName("species")]
-    public string Species { get; private set; } = species;
+    public string? Species { get; init; }
 
     [JsonPropertyName("type")]
-    public string Type { get; private set; } = type;
+    public string? Type { get; init; } 
 
     [JsonPropertyName("gender")]
-    public string Gender { get; private set; } = gender;
+    public string? Gender { get; init; } 
 
     [JsonPropertyName("origin")]
-    public Origin Origin { get; private set; } = origin;
+    public OriginDto? Origin { get; init; } 
 
     [JsonPropertyName("location")]
-    public Location Location { get; private set; } = location;
+    public LocationDto? Location { get; init; }
 
     [JsonPropertyName("image")]
-    public string Image { get; private set; } = image;
+    public string? Image { get; init; } 
 
     [JsonPropertyName("episode")]
-    public List<string> Episodes { get; private set; } = episodes;
+    public List<string>? Episodes { get; init; } 
 
     [JsonPropertyName("url")]
-    public string Url { get; private set; } = url;
+    public string? Url { get; init; }
 
     [JsonPropertyName("created")]
-    public string Created { get; private set; } = created;
-    public string From { get; set; }
+    public string? Created { get; init; }
+    public string? From { get; set; }
 }

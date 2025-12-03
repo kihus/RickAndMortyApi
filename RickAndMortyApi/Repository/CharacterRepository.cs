@@ -14,10 +14,10 @@ public class CharacterRepository
         _collection = database.GetCollection<Character>("Characters");
     }
 
-    public async Task<Character?> GetById(int id)
+    public async Task<List<Character?>> GetById(List<int> id)
     {
-        var character =  await _collection.FindAsync<Character>(c => c.RickMortyId == id);
-        return character.FirstOrDefault();
+        var filter = Builders<Character>.Filter.In(c => c.RickMortyId, id);
+        return await _collection.Find(filter).ToListAsync();
     }
 
     public async Task AddAsync(Character character)

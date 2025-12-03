@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using RickAndMorty.Models.Dtos.Character;
 using RickAndMorty.Models.Dtos.Page;
+using RickAndMorty.Models.Dtos.RickAndMorty;
 using RickAndMorty.Models.Entities;
 using RickAndMorty.Utils;
 using RickAndMortyApi.Repository;
@@ -21,29 +22,27 @@ public class CharacterService
 
     public async Task<List<CharacterDto>> GetAll(PageDto page)
     {
-        var result = await _client.GetAsync($"character/{(string.IsNullOrEmpty(page.Page) ? "" : $"?page={page.Page}")}");
+        var result = await _client.GetAsync($"character/{(page.Page is 0 ? "" : $"?page={page.Page}")}");
 
         var charactersJson = await result.Content.ReadAsStringAsync();
 
-        var characters = JsonSerializer.Deserialize<CharacterResponseDto>(charactersJson, _options)!;
+        var characters = JsonSerializer.Deserialize<RickAndMortyResponseDto>(charactersJson, _options)!;
         var charactersList = new List<CharacterDto>();
 
-        foreach (var character in characters.Results)
-        {
-            var characterNotFormated = await _repository.GetById(character.Id);
-            if (characterNotFormated is not null)
-            {
-                var characterFormated = Helpers.ConvertCharacterToCharacterDto(characterNotFormated);
-                characterFormated.From = "Veio do mongo";
-                charactersList.Add(characterFormated);
-                continue;
-            }
 
-            var characterForm = Helpers.ConvertCharacterDtoToCharacter(character);
-            await _repository.AddAsync(characterForm);
-            character.From = "Veio da api";
-            charactersList.Add(character);
+        var characterNotFormated = await _repository.GetById(characters.Results.Select(x => x.Id).ToList());
+
+        if (characterNotFormated is not null)
+        {
+            var characterFormated = Helpers.ConvertCharacterToCharacterDto(characterNotFormated.Single());
+            characterFormated.From = "Veio do mongo";
+            charactersList.Add(characterFormated);
         }
+
+        var characterForm = Helpers.ConvertCharacterDtoToCharacter(character);
+        await _repository.AddAsync(characterForm);
+
+
 
         return charactersList;
     }
@@ -99,7 +98,7 @@ public class CharacterService
         return listCharacter;
     }
 
-    public async Task<List<CharacterDto>> GetByFilter(CharacterFilter filter)
+    public async Task<List<CharacterDto>> GetByFilter(CharacterFilterDto filter)
     {
         var result = await _client.GetAsync($"character/?{(string.IsNullOrEmpty(filter.Name) ? "" : $"name={filter.Name}")}" +
                                                       $"{(string.IsNullOrEmpty(filter.Status) ? "" : $"&status={filter.Status}")}" +
@@ -109,7 +108,7 @@ public class CharacterService
 
         var characterJson = await result.Content.ReadAsStringAsync();
 
-        var character = JsonSerializer.Deserialize<CharacterResponseDto>(characterJson, _options);
+        var character = JsonSerializer.Deserialize<RickAndMortyResponseDto>(characterJson, _options);
         return character.Results;
     }
 
