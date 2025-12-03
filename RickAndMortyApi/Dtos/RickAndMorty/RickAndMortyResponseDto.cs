@@ -1,7 +1,7 @@
-﻿using RickAndMorty.Models.Dtos.Character;
+﻿using RickAndMortyApi.Dtos.Character;
 using System.Text.Json.Serialization;
 
-namespace RickAndMorty.Models.Dtos.RickAndMorty;
+namespace RickAndMortyApi.Dtos.RickAndMorty;
 
 public class RickAndMortyResponseDto
 {

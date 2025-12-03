@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using RickAndMorty.Models.Dtos.Character;
 using RickAndMorty.Models.Entities;
 using System.Runtime.CompilerServices;
 

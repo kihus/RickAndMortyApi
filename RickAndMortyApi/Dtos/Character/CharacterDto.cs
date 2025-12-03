@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System.Text.Json.Serialization;
 
-namespace RickAndMorty.Models.Dtos.Character;
+namespace RickAndMortyApi.Dtos.Character;
 
 public class CharacterDto
 {

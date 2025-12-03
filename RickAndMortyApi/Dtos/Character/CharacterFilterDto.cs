@@ -1,4 +1,4 @@
-﻿namespace RickAndMorty.Models.Dtos.Character;
+﻿namespace RickAndMortyApi.Dtos.Character;
 
 public class CharacterFilterDto
 {

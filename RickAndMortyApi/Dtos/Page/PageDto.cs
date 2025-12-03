@@ -1,4 +1,4 @@
-﻿namespace RickAndMorty.Models.Dtos.Page;
+﻿namespace RickAndMortyApi.Dtos.Page;
 
 public class PageDto
 {

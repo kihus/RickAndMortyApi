@@ -1,24 +1,34 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using RickAndMorty.Models.Dtos.Character;
 
 namespace RickAndMorty.Models.Entities;
 
-public class Character
+public class Character(
+    int rickMortyId,
+    string name,
+    string status,
+    string species,
+    string type,
+    string gender,
+    Origin origin,
+    Location location,
+    string image,
+    List<string> episodes,
+    string url
+        )
 {
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; }
-    public required int RickMortyId { get; set; }
-    public required string Name { get; set; }
-    public string Status { get; set; }
-    public string Species { get; set; }
-    public string Type { get; set; }
-    public string Gender { get; set; }
-    public OriginDto Origin { get; set; }
-    public LocationDto Location { get; set; }
-    public string Image { get; set; }
-    public List<string> Episodes { get; set; }
-    public string Url { get; set; }
-    public string Created { get; set; }
-    
+    public string Id { get; private set; }
+    public int RickMortyId { get; private set; } = rickMortyId;
+    public string Name { get; private set; } = name;
+    public string Status { get; private set; } = status;
+    public string Species { get; private set; } = species;
+    public string Type { get; private set; } = type;
+    public string Gender { get; private set; } = gender;
+    public Origin Origin { get; private set; } = origin;
+    public Location Location { get; private set; } = location;
+    public string Image { get; private set; } = image;
+    public List<string> Episodes { get; private set; } = episodes;
+    public string Url { get; private set; } = url;
+    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 }

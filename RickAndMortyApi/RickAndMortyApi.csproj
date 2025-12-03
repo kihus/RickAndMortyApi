@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RickAndMorty.Models\RickAndMorty.Models.csproj" />
-    <ProjectReference Include="..\RickAndMorty.Utils\RickAndMorty.Utils.csproj" />
   </ItemGroup>
 
 </Project>

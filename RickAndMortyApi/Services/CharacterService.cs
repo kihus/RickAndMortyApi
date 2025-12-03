@@ -1,10 +1,8 @@
 ﻿using System.Text.Json;
-using RickAndMorty.Models.Dtos.Character;
-using RickAndMorty.Models.Dtos.Page;
-using RickAndMorty.Models.Dtos.RickAndMorty;
-using RickAndMorty.Models.Entities;
-using RickAndMorty.Utils;
+using RickAndMortyApi.Dtos.Page;
+using RickAndMortyApi.Dtos.RickAndMorty;
 using RickAndMortyApi.Repository;
+using RickAndMortyApi.Dtos.Character;
 
 namespace RickAndMortyApi.Services;
 
@@ -31,19 +29,6 @@ public class CharacterService
 
 
         var characterNotFormated = await _repository.GetById(characters.Results.Select(x => x.Id).ToList());
-
-        if (characterNotFormated is not null)
-        {
-            var characterFormated = Helpers.ConvertCharacterToCharacterDto(characterNotFormated.Single());
-            characterFormated.From = "Veio do mongo";
-            charactersList.Add(characterFormated);
-        }
-
-        var characterForm = Helpers.ConvertCharacterDtoToCharacter(character);
-        await _repository.AddAsync(characterForm);
-
-
-
         return charactersList;
     }
 
@@ -53,47 +38,6 @@ public class CharacterService
         var listIds = ids.Split(',')
                          .Select(int.Parse)
                          .ToList();
-
-        foreach (var id in listIds)
-        {
-            var characterNotFormated = await _repository.GetById(id);
-            if (characterNotFormated is not null)
-            {
-                var characterFormated = Helpers.ConvertCharacterToCharacterDto(characterNotFormated);
-                characterFormated.From = "Veio do mongo";
-                listCharacter.Add(characterFormated);
-                continue;
-            }
-
-            var result = await _client.GetAsync($"character/{id}");
-
-            var characterJson = await result.Content.ReadAsStringAsync();
-
-            if (characterJson == null)
-                continue;
-
-            var character = JsonSerializer.Deserialize<CharacterDto>(characterJson, _options);
-
-            var characterMongo = new Character
-            {
-                RickMortyId = id,
-                Name = character.Name,
-                Status = character.Status,
-                Species = character.Species,
-                Type = character.Type,
-                Gender = character.Gender,
-                Origin = character.Origin,
-                Location = character.Location,
-                Image = character.Image,
-                Episodes = character.Episodes,
-                Url = character.Url,
-                Created = character.Created
-            };
-
-            await _repository.AddAsync(characterMongo);
-            character.From = "veio da api";
-            listCharacter.Add(character);
-        }
 
         return listCharacter;
     }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RickAndMorty.Models.Dtos.Character;
-using RickAndMorty.Models.Dtos.Page;
-using RickAndMorty.Models.Dtos.RickAndMorty;
+using RickAndMortyApi.Dtos.Character;
+using RickAndMortyApi.Dtos.Page;
+using RickAndMortyApi.Dtos.RickAndMorty;
 using RickAndMortyApi.Services;
 
 namespace RickAndMortyApi.Controllers
